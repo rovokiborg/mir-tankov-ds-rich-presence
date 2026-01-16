@@ -2,10 +2,11 @@ import time
 import psutil
 import os
 from pypresence import Presence
-
-CLIENT_ID = 'xxx'  
+import random
+CLIENT_ID = '1458048320575508665'  
 POSSIBLE_PROCESSES = ["tanki.exe", "worldoftanks.exe", "wot.exe"]
 IMAGE_KEY = "tank" 
+DESCRIPTIONS = ["Пьет пиво","Ебет на бабахе","Качает ветку","Отращивает пузо","Ебет тухлозадых","Раздает в зюзю","Артаводы кто?"]
 
 def get_active_process():
     for proc in psutil.process_iter(['name']):
@@ -42,7 +43,7 @@ def main():
             try:
                 rpc.update(
                     state="На поле боя",
-                    details="Играет в Мир Танков",
+                    details=random.choice(DESCRIPTIONS),
                     start=start_time,
                     large_image=IMAGE_KEY,
                     large_text="Мир Танков"
