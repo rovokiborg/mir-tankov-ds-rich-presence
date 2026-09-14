@@ -1,4 +1,4 @@
-# World of Tanks — Discord Rich Presence
+# World of Tanks (LESTA) — Discord Rich Presence
 
 A small Python script that automatically enables Discord Rich Presence when **World of Tanks** is running.
 
