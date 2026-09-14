@@ -1,34 +1,34 @@
-# World of Tanks (LESTA) — Discord Rich Presence
+# Мир Танков (Lesta) — Discord Rich Presence
 
-A small Python script that automatically enables Discord Rich Presence when **World of Tanks** is running.
+Небольшой Python-скрипт, который автоматически включает Discord Rich Presence при запуске **Мира Танков**.
 
-The script monitors the game process and:
+Скрипт отслеживает процесс игры и:
 
-* automatically connects to Discord when the game starts;
-* displays a custom Discord Rich Presence status;
-* shows the current game session duration;
-* randomly changes the activity description;
-* automatically clears the status when the game is closed;
-* runs silently in the background using `pythonw.exe`.
+* автоматически подключается к Discord, когда игра запущена;
+* показывает кастомный статус в профиле Discord;
+* отображает время текущей игровой сессии;
+* случайно меняет описание активности;
+* автоматически убирает статус после закрытия игры;
+* работает в фоне через `pythonw.exe`.
 
-## Requirements
+## Требования
 
 * Windows 10/11
 * Python 3.10+
 * Discord Desktop
-* World of Tanks
-* A Discord Application with a configured Rich Presence image asset
+* Мир Танков
+* созданное Discord Application с Rich Presence Asset
 
-Python dependencies:
+Python-библиотеки:
 
 ```text
 psutil
 pypresence
 ```
 
-## Project Structure
+## Структура проекта
 
-Example:
+Пример:
 
 ```text
 tanki-rpc/
@@ -45,66 +45,66 @@ tanki-rpc/
     └── ...
 ```
 
-`mir_tankov` is the Python virtual environment.
+`mir_tankov` — Python virtual environment.
 
-## Installation
+## Установка
 
-### 1. Create a virtual environment
+### 1. Создать виртуальное окружение
 
-Open Command Prompt inside the project folder:
+Откройте командную строку в папке проекта:
 
 ```bat
 python -m venv mir_tankov
 ```
 
-### 2. Install dependencies
+### 2. Установить зависимости
 
 ```bat
 mir_tankov\Scripts\pip.exe install -r requirements.txt
 ```
 
-Or:
+Либо:
 
 ```bat
 mir_tankov\Scripts\python.exe -m pip install -r requirements.txt
 ```
 
-## Discord Application Setup
+## Настройка Discord Application
 
-The script currently uses:
+В коде используется:
 
 ```python
 CLIENT_ID = "1458048320575508665"
 ```
 
-This is the Discord Application ID.
+Это ID Discord Application.
 
-To use your own Discord application:
+Для собственного приложения необходимо:
 
-1. Open the Discord Developer Portal.
-2. Create a new Application.
-3. Copy the `Application ID`.
-4. Replace the value in the script:
+1. Открыть Discord Developer Portal.
+2. Создать Application.
+3. Скопировать `Application ID`.
+4. Указать его в:
 
 ```python
-CLIENT_ID = "YOUR_APPLICATION_ID"
+CLIENT_ID = "ВАШ_APPLICATION_ID"
 ```
 
-5. Add a Rich Presence image asset with the key:
+5. Добавить изображение для Rich Presence с ключом:
 
 ```text
 tank
 ```
 
-The asset key must match:
+Этот ключ должен совпадать с:
 
 ```python
 IMAGE_KEY = "tank"
 ```
 
-## Monitored Processes
+## Отслеживаемые процессы
 
-The script considers the game running if it detects one of the following processes:
+Скрипт считает игру запущенной, если обнаруживает один из процессов:
 
 ```python
 POSSIBLE_PROCESSES = [
@@ -114,17 +114,17 @@ POSSIBLE_PROCESSES = [
 ]
 ```
 
-If your game executable has a different filename, add it to this list.
+Если реальный `.exe` игры называется иначе, добавьте его название в этот список.
 
-## Running the Script
+## Запуск
 
-The project uses:
+Для запуска используется:
 
 ```text
 tanki.bat
 ```
 
-Recommended contents:
+Содержимое:
 
 ```bat
 @echo off
@@ -133,7 +133,7 @@ cd /d "%~dp0"
 if exist "mir_tankov\Scripts\pythonw.exe" (
     set PYTHON_EXE="mir_tankov\Scripts\pythonw.exe"
 ) else (
-    echo ERROR: pythonw.exe was not found in mir_tankov\Scripts
+    echo ОШИБКА: Не найден pythonw.exe в папке mir_tankov\Scripts
     pause
     exit /b 1
 )
@@ -141,36 +141,36 @@ if exist "mir_tankov\Scripts\pythonw.exe" (
 start "" %PYTHON_EXE% "tanki.pyw"
 ```
 
-The script runs without a console window because it uses `pythonw.exe`.
+После запуска окно консоли не будет отображаться, потому что используется `pythonw.exe`.
 
-After launch, it stays in the background and waits for the game process to appear.
+Скрипт продолжит работать в фоне и будет ждать запуска игры.
 
-## How It Works
+## Как это работает
 
-Every 15 seconds, the script checks the list of running Windows processes:
+Каждые 15 секунд скрипт проверяет список процессов Windows:
 
 ```python
 time.sleep(15)
 ```
 
-When World of Tanks is detected:
+Когда обнаруживается Мир Танков:
 
-1. the script connects to Discord RPC;
-2. the session start time is saved;
-3. Discord Rich Presence is updated.
+1. выполняется подключение к Discord RPC;
+2. запоминается время запуска;
+3. устанавливается Discord Activity.
 
-Example activity:
+Пример активности:
 
 ```text
-World of Tanks
+Мир Танков
 
-Rolling into battle
-On the battlefield
+Раздает в зюзю
+На поле боя
 
 00:42:17 elapsed
 ```
 
-The activity description is selected randomly from:
+Описание выбирается случайно из списка:
 
 ```python
 DESCRIPTIONS = [
@@ -184,98 +184,86 @@ DESCRIPTIONS = [
 ]
 ```
 
-You can replace these strings with any custom messages you want.
+После закрытия игры Rich Presence автоматически очищается.
 
-When the game is closed, the Rich Presence activity is automatically cleared.
+## Discord должен быть запущен
 
-## Discord Must Be Running
+`pypresence` подключается к локальному Discord-клиенту.
 
-`pypresence` connects to the local Discord Desktop client.
+Если Discord не запущен, подключение не произойдет.
 
-If Discord is not running, the connection will fail.
+Скрипт попробует подключиться снова после следующей проверки.
 
-The script will automatically try again during the next process check.
+## Автозапуск с Windows
 
-## Run Automatically on Windows Startup
+Если необходимо запускать скрипт автоматически вместе с Windows:
 
-To start the script automatically when Windows starts:
-
-1. Press `Win + R`.
-2. Enter:
+1. Нажмите `Win + R`.
+2. Введите:
 
 ```text
 shell:startup
 ```
 
-3. Create a shortcut to:
+3. Создайте в открывшейся папке ярлык на:
 
 ```text
 tanki.bat
 ```
 
-The script will then start automatically after you sign in to Windows.
+После этого скрипт будет автоматически запускаться после входа в Windows.
 
-## Stopping the Script
+## Остановка
 
-Because the script uses `pythonw.exe`, there is no visible console window.
+Так как используется `pythonw.exe`, окно консоли отсутствует.
 
-To stop it manually, open Task Manager and terminate the corresponding `pythonw.exe` process.
+Для остановки можно завершить процесс `pythonw.exe` через Диспетчер задач.
 
-If you have other Python applications running through `pythonw.exe`, make sure you terminate the correct process.
+Если на компьютере одновременно работают другие Python-программы через `pythonw.exe`, убедитесь, что завершаете именно нужный процесс.
 
-## Configuration
+## Основные настройки
 
-### Change the State
+### Изменить статус
 
 ```python
 state="На поле боя"
 ```
 
-For example:
+### Изменить описания
 
-```python
-state="On the battlefield"
-```
-
-### Change Activity Descriptions
-
-Edit:
+Отредактируйте:
 
 ```python
 DESCRIPTIONS = [...]
 ```
 
-### Change the Rich Presence Image
-
-Edit:
+### Изменить картинку
 
 ```python
 IMAGE_KEY = "tank"
 ```
 
-An image asset with the same key must exist in your Discord Application.
+Изображение с таким же ключом должно существовать в Discord Application.
 
-### Change the Process Check Interval
-
-Current interval:
+### Изменить частоту проверки
 
 ```python
 time.sleep(15)
 ```
 
-For example, to check every 5 seconds:
+Например, проверка каждые 5 секунд:
 
 ```python
 time.sleep(5)
 ```
 
-## Dependencies
+## Зависимости
 
-The project uses:
+Проект использует:
 
-* `psutil` — detects whether the game process is running;
-* `pypresence` — communicates with Discord Rich Presence.
+* `psutil` — поиск процесса игры;
+* `pypresence` — работа с Discord Rich Presence.
 
 ## License
 
-This project is intended for personal use.
+Проект предназначен для личного использования.
