@@ -77,7 +77,7 @@ mir_tankov\Scripts\python.exe -m pip install -r requirements.txt
 CLIENT_ID = "1458048320575508665"
 ```
 
-Это ID Discord Application.
+Это ID Discord Application. Полностью рабочий, но если вы хотите добавить что то своё:
 
 Для собственного приложения необходимо:
 
